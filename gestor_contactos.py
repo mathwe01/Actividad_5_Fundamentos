@@ -30,10 +30,35 @@ def guardar_texto(contacto):
         f.write(f"{contacto[0]},{contacto[1]},{contacto[2]}\n")
     print("Contacto guardado en", ARCHIVO_TXT)
     
+def leer_contactos(contacto):
+    contactos = []
+    try:
+        with open(ARCHIVO_TXT, "r", encoding="utf-8") as f:
+            for linea in f:
+                partes = linea.strip().split(",") 
+                if len(partes) == 3:
+                    contactos.append((int(partes[0]), partes[1], partes[2]))
+    except FileNotFoundError:
+        pass
+    return contactos
+
+def mostrar_contactos():
+    contactos = leer_contactos()
+    if not contactos:
+        print("No hay contactos registrados.")
+        return
+    print(f"\n{'ID':<5}{'Nombre':<25}{'Teléfono:<15'}")
+    print("-" * 45)
+    for id_, nombre, tel in contactos:
+        print(f"{id_:<5}{nombre:<25}{tel:<15}")
+    print()
+    
+                
 def menu():
     while True:
         print("=== GESTOR DE CONTACTOS ===")
         print("1. Agregar contacto")
+        print("2. Mostrar contactos (texto)")
         print("0. Salir")
         opcion = input("Opción: ").strip()
 
@@ -41,6 +66,8 @@ def menu():
             contacto = ingresar_contacto()
             if contacto:
                 guardar_texto(contacto)
+        elif opcion == "2":
+            mostrar_contactos()
         elif opcion == "0":
             print("Programa finalizado.")
             break
