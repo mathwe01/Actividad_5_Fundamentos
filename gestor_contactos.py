@@ -24,7 +24,12 @@ def ingresar_contacto():
         print("El nombre y el teléfono no pueden estar vacíos.")
         return None
     return siguiente_id(), nombre, telefono
-        
+
+def guardar_texto(contacto):
+    with open(ARCHIVO_TXT, "a", encoding="utf-8") as f:
+        f.write(f"{contacto[0]},{contacto[1]},{contacto[2]}\n")
+    print("Contacto guardado en", ARCHIVO_TXT)
+    
 def menu():
     while True:
         print("=== GESTOR DE CONTACTOS ===")
@@ -33,7 +38,9 @@ def menu():
         opcion = input("Opción: ").strip()
 
         if opcion == "1":
-            print(ingresar_contacto())
+            contacto = ingresar_contacto()
+            if contacto:
+                guardar_texto(contacto)
         elif opcion == "0":
             print("Programa finalizado.")
             break
