@@ -30,7 +30,7 @@ def guardar_texto(contacto):
         f.write(f"{contacto[0]},{contacto[1]},{contacto[2]}\n")
     print("Contacto guardado en", ARCHIVO_TXT)
     
-def leer_contactos(contacto):
+def leer_contactos():
     contactos = []
     try:
         with open(ARCHIVO_TXT, "r", encoding="utf-8") as f:
