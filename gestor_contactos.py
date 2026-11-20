@@ -47,7 +47,7 @@ def mostrar_contactos():
     if not contactos:
         print("No hay contactos registrados.")
         return
-    print(f"\n{'ID':<5}{'Nombre':<25}{'Teléfono:<15'}")
+    print(f"\n{'ID':<5}{'Nombre':<25}{'Teléfono':<15}")
     print("-" * 45)
     for id_, nombre, tel in contactos:
         print(f"{id_:<5}{nombre:<25}{tel:<15}")
