@@ -64,6 +64,32 @@ def buscar_contacto():
             
 def contar_contactos():
     print("Total de contactos:", len(leer_contactos()))
+    
+def exportar_a_binario():
+    contactos = leer_contactos()
+    with open(ARCHIVO_BIN, "wb") as f:
+        for id_, nombre, tel in contactos:
+            f.write(struct.pack(FORMATO, id_, nombre.encode("utf-8"), tel.encode("utf-8")))
+    print(f"{len(contactos)} contactos guardados en {ARCHIVO_BIN} "
+                  f"({os.path.getsize(ARCHIVO_BIN)} bytes)")
+            
+def leer_binario():
+    if not os.path.exists(ARCHIVO_BIN):
+        print("Aún no existe el archivo binario. Use la opción de exportar.")
+        return
+    print(f"\n{'ID':<5}{'Nombre':<25}{'Telefono':<15}")
+    print("-" * 45)
+    with open(ARCHIVO_BIN, "rb") as f:
+        while True:
+            bloque = f.read(TAM_REGISTRO)
+            if len(bloque) < TAM_REGISTRO:
+                break
+            id_, nombre, tel = struct.unpack(FORMATO, bloque)
+            nombre = nombre.rstrip(b"\x00").decode("utf-8")
+            tel = tel.rstrip(b"\x00").decode("utf-8")
+            print(f"{id_:<5}{nombre:<25}{tel:<15}")
+    print()
+        
                 
 def menu():
     while True:
@@ -72,6 +98,8 @@ def menu():
         print("2. Mostrar contactos (texto)")
         print("3. Buscar contacto")
         print("4. Contar contactos")
+        print("5. Exportar a archivo binario")
+        print("6. Leer archivo binario")
         print("0. Salir")
         opcion = input("Opción: ").strip()
 
@@ -83,11 +111,15 @@ def menu():
             mostrar_contactos()
         elif opcion == "0":
             print("Programa finalizado.")
+            break
         elif opcion == "3":
             buscar_contacto()
         elif opcion == "4":
             contar_contactos()
-            break
+        elif opcion == "5":
+            exportar_a_binario()
+        elif opcion == "6":
+            leer_binario()
         else:
             print("Opción no válida.")
             
