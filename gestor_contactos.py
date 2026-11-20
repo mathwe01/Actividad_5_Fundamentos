@@ -59,8 +59,8 @@ def buscar_contacto():
     if encontrados:
         for id_, nombre, tel in encontrados:
             print(f" ID {id_} | {nombre} | {tel}")
-        else:
-            print("No se encontraron coincidencias.")
+    else:
+        print("No se encontraron coincidencias.")
             
 def contar_contactos():
     print("Total de contactos:", len(leer_contactos()))
