@@ -53,12 +53,25 @@ def mostrar_contactos():
         print(f"{id_:<5}{nombre:<25}{tel:<15}")
     print()
     
+def buscar_contacto():
+    texto = input("Nombre a buscar: ").strip().lower()
+    encontrados = [c for c in leer_contactos() if texto in c[1].lower()]
+    if encontrados:
+        for id_, nombre, tel in encontrados:
+            print(f" ID {id_} | {nombre} | {tel}")
+        else:
+            print("No se encontraron coincidencias.")
+            
+def contar_contactos():
+    print("Total de contactos:", len(leer_contactos()))
                 
 def menu():
     while True:
         print("=== GESTOR DE CONTACTOS ===")
         print("1. Agregar contacto")
         print("2. Mostrar contactos (texto)")
+        print("3. Buscar contacto")
+        print("4. Contar contactos")
         print("0. Salir")
         opcion = input("Opción: ").strip()
 
@@ -70,6 +83,10 @@ def menu():
             mostrar_contactos()
         elif opcion == "0":
             print("Programa finalizado.")
+        elif opcion == "3":
+            buscar_contacto()
+        elif opcion == "4":
+            contar_contactos()
             break
         else:
             print("Opción no válida.")
